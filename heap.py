@@ -1,0 +1,61 @@
+class BinaryMaxHeap:
+    def __init__(self):
+        self.heap=[None]*10
+        self.size=0
+
+    def getLeftChildIndex(self, index):
+        return 2*index+1
+    def getRightChildIndex(self, index):
+        return 2*index+2
+
+    def getParentIndex(self, index):
+        return (index-1)//2
+
+    def ensureCapicty(self):
+        if self.size==len(self.heap):
+            self.heap=self.heap+[None]*len(self.heap) #zdvojnasobenie kapacity
+
+    def insert(self, value):
+        self.ensureCapicty()
+        self.heap[self.size]=value
+        self.size+=1
+        self.heapifyUp(self.size-1)
+
+    def heapifyUp(self, index):
+        while index>0:
+            parentIndex=self.getParentIndex(index)
+            if self.heap[index]>self.heap[parentIndex]:
+                self.heap[index], self.heap[parentIndex]=self.heap[parentIndex], self.heap[index]
+                index=parentIndex
+            else:
+                return
+
+
+    def poll(self):
+        if self.size==0:
+            print("Heap is empty")
+            return None
+        self.heap[0],self.heap[self.size-1]=self.heap[self.size-1],self.heap[0]
+        self.heap[self.size-1]=None
+        self.size-=1
+        self.heapifyDown(0)
+
+    def heapifyDown(self, index):
+        while self.getLeftChildIndex(index)<self.size:
+            greaterChildIndex=self.getLeftChildIndex(index)
+            if self.getRightChildIndex(index)<self.size and self.heap[self.getRightChildIndex(index)]>self.heap[greaterChildIndex]:
+                greaterChildIndex=self.getRightChildIndex(index)
+            if self.heap[index]<self.heap[greaterChildIndex]:
+                self.heap[index], self.heap[greaterChildIndex]=self.heap[greaterChildIndex], self.heap[index]
+                index=greaterChildIndex
+            else:
+                return
+
+halda=BinaryMaxHeap()
+for value in 10,20,30,40,35,50:
+    halda.insert(value)
+print(halda.heap)
+halda.poll()
+print(halda.heap)
+halda.poll()
+print(halda.heap)
