@@ -11,12 +11,12 @@ class BinaryMaxHeap:
     def getParentIndex(self, index):
         return (index-1)//2
 
-    def ensureCapicty(self):
+    def ensureCapacity(self):
         if self.size==len(self.heap):
             self.heap=self.heap+[None]*len(self.heap) #zdvojnasobenie kapacity
 
     def insert(self, value):
-        self.ensureCapicty()
+        self.ensureCapacity()
         self.heap[self.size]=value
         self.size+=1
         self.heapifyUp(self.size-1)
@@ -50,12 +50,3 @@ class BinaryMaxHeap:
                 index=greaterChildIndex
             else:
                 return
-
-halda=BinaryMaxHeap()
-for value in 10,20,30,40,35,50:
-    halda.insert(value)
-print(halda.heap)
-halda.poll()
-print(halda.heap)
-halda.poll()
-print(halda.heap)
