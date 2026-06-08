@@ -37,3 +37,13 @@ class Node:
         if self.right:
             self.right.postorder()
         print(self.data, end=" ")
+
+    def draw(self, px, py, x, y, canvas):
+        if px != -1 and py != -1:
+            canvas.create_line(px, py, x, y)
+        if self.left is not None:
+            self.left.draw(x, y, x - 30, y + 30, canvas)
+        if self.right is not None:
+            self.right.draw(x, y, x + 30, y + 30, canvas)
+        canvas.create_oval(x - 10, y - 10, x + 10, y + 10, fill="white")
+        canvas.create_text(x, y, text=str(self.data))

@@ -28,3 +28,11 @@ class BST:
             print()
         else:
             print("Tree is empty")
+
+    def draw(self, x, y, canvas):
+        canvas.delete("all")
+        if self.root is not None:
+            self.root.draw(-1, -1, x, y, canvas)
+        else:
+            print("Tree is empty")
+

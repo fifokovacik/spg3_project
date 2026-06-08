@@ -50,3 +50,28 @@ class BinaryMaxHeap:
                 index=greaterChildIndex
             else:
                 return
+
+    def printHeap(self):
+        print(self.heap[:self.size])
+
+    def draw(self, x, y, canvas):
+        canvas.delete("all")
+        if self.size > 0:
+            self.draw_node(0, -1, -1, x, y, canvas, 150)
+        else:
+            print("Heap is empty")
+
+    def draw_node(self, index, px, py, x, y, canvas, offset):
+        if px != -1 and py != -1:
+            canvas.create_line(px, py, x, y)
+
+        left_child = self.getLeftChildIndex(index)
+        right_child = self.getRightChildIndex(index)
+
+        if left_child < self.size:
+            self.draw_node(left_child, x, y, x - offset, y + 40, canvas, offset // 2)
+        if right_child < self.size:
+            self.draw_node(right_child, x, y, x + offset, y + 40, canvas, offset // 2)
+
+        canvas.create_oval(x - 15, y - 15, x + 15, y + 15, fill="white")
+        canvas.create_text(x, y, text=str(self.heap[index]))

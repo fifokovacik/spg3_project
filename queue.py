@@ -27,7 +27,7 @@ class Queue:
             self.front = self.front.next
             return dequeued
 
-    def print_queue(self):
+    def printQueue(self):
         current = self.front
         while current:
             print(current.data, end=" ")
