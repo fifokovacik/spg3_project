@@ -1,6 +1,6 @@
 import tkinter
 from stack import Stack
-from queue import Queue
+from my_queue import Queue
 from bst import BST
 from avl import AVL
 from max_heap import BinaryMaxHeap
@@ -281,8 +281,9 @@ def stack_draw():
         start_y = start_y + 40
         current = current.next
 def stack_push(value):
-    stack.push(value)
-    stack_draw()
+    if value!="":
+        stack.push(value)
+        stack_draw()
 def stack_pop():
     stack.pop()
     stack_draw()
@@ -298,8 +299,9 @@ def queue_draw():
         start_y = start_y + 40
         current = current.next
 def queue_enqueue(value):
-    queue.enqueue(value)
-    queue_draw()
+    if value!="":
+        queue.enqueue(value)
+        queue_draw()
 def queue_dequeue():
     queue.dequeue()
     queue_draw()
