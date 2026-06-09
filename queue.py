@@ -33,3 +33,11 @@ class Queue:
             print(current.data, end=" ")
             current = current.next
         print()
+
+    def saveQueue(self):
+        save=""
+        current = self.front
+        while current:
+            save+=current.data+" "
+            current = current.next
+        return save

@@ -53,6 +53,8 @@ class BinaryMaxHeap:
 
     def printHeap(self):
         print(self.heap[:self.size])
+    def saveHeap(self):
+        return(" ".join(map(str, self.heap[:self.size])))
 
     def draw(self, x, y, canvas):
         canvas.delete("all")

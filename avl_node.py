@@ -192,14 +192,14 @@ class Node:
             self.right.postorder()
         print(self.data)
 
-    def draw(self, px, py, x, y, canvas):
+    def draw(self, px, py, x, y, canvas, offset):
         if px != -1 and py != -1:
             canvas.create_line(px, py, x, y)
         if self.left is not None:
-            self.left.draw(x, y, x - 30*self.depth, y + 30, canvas)
+            self.left.draw(x, y, x - offset, y + 40, canvas, offset//2)
         if self.right is not None:
-            self.right.draw(x, y, x + 30*self.depth, y + 30, canvas)
-        canvas.create_oval(x - 10, y - 10, x + 10, y + 10, fill="white")
+            self.right.draw(x, y, x + offset, y + 40, canvas, offset//2)
+        canvas.create_oval(x - 15, y - 15, x + 15, y + 15, fill="white")
         canvas.create_text(x, y, text=str(self.data))
-        canvas.create_text(x - 10, y - 12, text=str(self.depth))
-        canvas.create_text(x + 10, y - 12, text=str(self.balance))
+        canvas.create_text(x - 15, y - 17, text=str(self.depth))
+        canvas.create_text(x + 15, y - 17, text=str(self.balance))

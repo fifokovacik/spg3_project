@@ -37,12 +37,12 @@ load_button.place(x=1110, y=500)
 save_entry.place(x=920, y=550)
 save_button.place(x=1110, y=550)
 
-def stack_open():
+def stack_open(data=None):
     global rn, special
     for obj in special:
         obj.destroy()
     c.delete("all")
-    rn="stack"
+    rn=0
 
     stack_push_entry = tkinter.Entry(root, width = 30)
     stack_push_button = tkinter.Button(root, text="push", command=lambda:stack_push(stack_push_entry.get()))
@@ -55,13 +55,18 @@ def stack_open():
     stack_pop_button.place(x=950, y=75)
     stack_print_button.place(x=950, y=125)
 
+    if data is not None:
+        stack.top = None
+        for value in reversed(data):  #reversed so the top stays accurate
+            stack_push(value)
 
-def queue_open():
+
+def queue_open(data=None):
     global rn, special
     for obj in special:
         obj.destroy()
     c.delete("all")
-    rn="queue"
+    rn=1
 
     queue_enqueue_entry = tkinter.Entry(root, width = 30)
     queue_enqueue_button = tkinter.Button(root, text="enqueue", command=lambda:queue_enqueue(queue_enqueue_entry.get()))
@@ -74,13 +79,21 @@ def queue_open():
     queue_dequeue_button.place(x=950, y=75)
     queue_print_button.place(x=950, y=125)
 
+    if data is not None:
+        queue.front = None
+        queue.tail = None
 
-def bst_open():
+        for value in data:
+            if value.strip():
+                queue_enqueue(value)
+
+
+def bst_open(data=None):
     global rn, special
     for obj in special:
         obj.destroy()
     c.delete("all")
-    rn="BST"
+    rn=2
 
     bst_insert_entry = tkinter.Entry(root, width = 30)
     bst_insert_button = tkinter.Button(root, text="insert", command=lambda:bst_insert(bst_insert_entry.get()))
@@ -95,13 +108,20 @@ def bst_open():
     bst_inorder_button.place(x=950, y=125)
     bst_postorder_button.place(x=950, y=175)
 
+    if data is not None:
+        bst.root = None
 
-def avl_open():
+        for value in data:
+            if value.strip():
+                bst_insert(value)
+
+
+def avl_open(data=None):
     global rn, special
     for obj in special:
         obj.destroy()
     c.delete("all")
-    rn="AVL"
+    rn=3
 
     avl_insert_entry = tkinter.Entry(root, width = 30)
     avl_insert_button = tkinter.Button(root, text="insert", command=lambda:avl_insert(avl_insert_entry.get()))
@@ -120,17 +140,24 @@ def avl_open():
     avl_inorder_button.place(x=950, y=175)
     avl_postorder_button.place(x=950, y=225)
 
+    if data is not None:
+        avl.root = None
 
-def max_heap_open():
+        for value in data:
+            if value.strip():
+                avl_insert(value)
+
+
+def max_heap_open(data=None):
     global rn, special
     for obj in special:
         obj.destroy()
     c.delete("all")
-    rn="max-heap"
+    rn=4
 
     max_heap_insert_entry = tkinter.Entry(root, width = 30)
     max_heap_insert_button = tkinter.Button(root, text="insert", command=lambda:max_heap_insert(max_heap_insert_entry.get()))
-    max_heap_poll_button = tkinter.Button(root, text="poll (remove max)", command=lambda:max_heap_poll(), width=25)
+    max_heap_poll_button = tkinter.Button(root, text="remove max", command=lambda:max_heap_poll(), width=25)
     max_heap_print_button = tkinter.Button(root, text="print array", command=lambda:max_heap.printHeap(), width=25)
     special = [max_heap_insert_entry, max_heap_insert_button, max_heap_poll_button, max_heap_print_button]
 
@@ -139,16 +166,24 @@ def max_heap_open():
     max_heap_poll_button.place(x=950, y=75)
     max_heap_print_button.place(x=950, y=125)
 
-def min_heap_open():
+    if data is not None:
+        max_heap.size = 0
+        max_heap.heap = [None] * 10
+
+        for value in data:
+            if value.strip():
+                max_heap_insert(value)
+
+def min_heap_open(data=None):
     global rn, special
     for obj in special:
         obj.destroy()
     c.delete("all")
-    rn="min-heap"
+    rn=5
 
     min_heap_insert_entry = tkinter.Entry(root, width = 30)
     min_heap_insert_button = tkinter.Button(root, text="insert", command=lambda:min_heap_insert(min_heap_insert_entry.get()))
-    min_heap_poll_button = tkinter.Button(root, text="poll (remove min)", command=lambda:min_heap_poll(), width=25)
+    min_heap_poll_button = tkinter.Button(root, text="remove min", command=lambda:min_heap_poll(), width=25)
     min_heap_print_button = tkinter.Button(root, text="print array", command=lambda:min_heap.printHeap(), width=25)
     special = [min_heap_insert_entry, min_heap_insert_button, min_heap_poll_button, min_heap_print_button]
 
@@ -157,14 +192,83 @@ def min_heap_open():
     min_heap_poll_button.place(x=950, y=75)
     min_heap_print_button.place(x=950, y=125)
 
+    if data is not None:
+        min_heap.size = 0
+        min_heap.heap = [None] * 10
+
+        for value in data:
+            if value.strip():
+                min_heap_insert(value)
+
 
 def load():
-    load_entry.get()
-    pass
+    file_path = load_entry.get()
+
+    if not file_path.endswith(".txt"):
+        print("Insert the location of an existing file (ending in .txt).")
+        return None
+
+    try:
+        with open(file_path, "r") as file:
+            structure_index = int(file.readline().strip())
+            data = file.readline().split()
+
+        data_structure_loaders = [stack_open,queue_open,bst_open,avl_open,max_heap_open,min_heap_open]
+
+        if 0 <= structure_index < len(data_structure_loaders):
+            loaded_structure = data_structure_loaders[structure_index](data)
+            return loaded_structure
+        else:
+            print(
+                f"Error: Index {structure_index} does not match any data structure."
+            )
+
+    except FileNotFoundError:
+        print(f"Error: The file '{file_path}' could not be found.")
+    except ValueError:
+        print(
+            "Error: Invalid data format. First line must be a valid integer."
+        )
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+
+    return None
+
+
+def get_tree_data(node):
+    if node is None:
+        return ""
+    return str(node.data) + " " + get_tree_data(node.left) + get_tree_data(node.right)
+
+
 def save():
-    save_entry.get()
-    #bst in preorder
-    pass
+    file_path = save_entry.get()
+
+    if not file_path.endswith(".txt"):
+        print("Insert valid file name (ending in .txt).")
+        return
+
+    global rn
+    if rn == "":
+        print("No data structure selected to save.")
+        return
+
+    save_actions = {0: stack.saveStack, 1: queue.saveQueue, 2: lambda: get_tree_data(bst.root), 3: lambda: get_tree_data(avl.root), 4: max_heap.saveHeap, 5: min_heap.saveHeap}
+
+    if rn in save_actions:
+        data_to_save = save_actions[rn]()
+    else:
+        print("Error: Unknown data structure index.")
+        return
+
+    try:
+        with open(file_path, "w") as file:
+            file.write(str(rn) + "\n")
+            file.write(data_to_save.strip() + "\n")
+
+        print(f"Data successfully saved to '{file_path}'.")
+    except Exception as e:
+        print(f"An error occurred while saving: {e}")
 
 
 def stack_draw():

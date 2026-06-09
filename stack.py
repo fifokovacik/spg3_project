@@ -34,3 +34,11 @@ class Stack:
             print(current.data, end=" ")
             current = current.next
         print()
+
+    def saveStack(self):
+        save=""
+        current = self.top
+        while current:
+            save+=current.data+" "
+            current = current.next
+        return save
