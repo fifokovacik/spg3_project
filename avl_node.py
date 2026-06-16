@@ -174,12 +174,12 @@ class Node:
     def inorder(self):
         if self.left is not None:
             self.left.inorder()
-        print(self.data)
+        print(self.data, end=" ")
         if self.right is not None:
             self.right.inorder()
 
     def preorder(self):
-        print(self.data)
+        print(self.data, end=" ")
         if self.left is not None:
             self.left.preorder()
         if self.right is not None:
@@ -190,7 +190,7 @@ class Node:
             self.left.postorder()
         if self.right is not None:
             self.right.postorder()
-        print(self.data)
+        print(self.data, end=" ")
 
     def draw(self, px, py, x, y, canvas, offset):
         if px != -1 and py != -1:
